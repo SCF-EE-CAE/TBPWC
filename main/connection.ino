@@ -12,17 +12,13 @@
 void WiFi_connect() {
   // Check if its already connected
   if (WiFi.status() == WL_CONNECTED) return;
-
-  Serial.print("Connecting to AP, SSID: ");
-  Serial.println(WIFI_SSID);
-
+  
   // Set station mode
   WiFi.mode(WIFI_STA);
 
   // Set custom MAC, if defined
   #ifdef CUSTOM_MAC_ADDRESS
   wifi_set_macaddr(STATION_IF, &customMacAddress[0]);
-  Serial.printf("Using custom MAC address: %s\n", WiFi.macAddress().c_str());
   #endif
 
   // Attempting to establish a connection to the given WiFi network
@@ -30,13 +26,9 @@ void WiFi_connect() {
 
   int8_t ret;
   if ((ret = WiFi.waitForConnectResult()) != WL_CONNECTED) {
-    Serial.printf("Connection Error, status_code = %d\n", ret);
-    Serial.println("Resetting in 5 seconds...");
     delay(5000);
     ESP.restart();
   }
-
-  Serial.println("Connected to AP.");
 }
 
 /**
@@ -53,16 +45,10 @@ void WiFi_connect() {
 void TB_connect() {
   if(tb.connected()) return;
 
-  Serial.printf("Connecting to Thingsboard server: (%s) with access token\n", TB_SERVER_ADDRESS);
-  
   if(!tb.connect(TB_SERVER_ADDRESS, TB_TOKEN, TB_SERVER_PORT)) {
-    Serial.println("Failed to connect.");
-    Serial.println("Resetting in 5 seconds...");
     delay(5000);
     ESP.restart();
   }
-
-  Serial.println("Connected to Thingsboard.");
 }
 
 /**

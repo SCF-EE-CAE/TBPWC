@@ -22,7 +22,8 @@ void sendSystemInfo() {
   Attribute attributes[attribute_items] = {
     {"firmwareVersion", FIRMWARE_VERSION},
     {"ip", ipBuffer},
-    {"mac", macBuffer}
+    {"mac", macBuffer},
+    {"numberOfDevices", N_DEVICES}
   };
 
   tb.sendAttributes(attributes, attribute_items);

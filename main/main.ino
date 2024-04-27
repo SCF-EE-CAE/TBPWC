@@ -16,17 +16,17 @@ Arduino_MQTT_Client mqttClient(espClient);
 ThingsBoard tb(mqttClient, TB_MAX_MESSAGE_SIZE);
 
 void setup() {
-  Serial.begin(SERIAL_BAUD_RATE);
-  delay(500); // wait for Serial begin
-
-  // Show MAC
-  Serial.printf("\n\nMAC address: %s\n", WiFi.macAddress().c_str());
-
   // Connect to WiFi and Thingsboard
   connect();
   
   // Send system info to TB (attributes)
   sendSystemInfo();
+
+  // Init relays in OFF state
+  initRelays();
+
+  // Subscribe to RPCs
+  initRPCs();
 }
 
 void loop() {
